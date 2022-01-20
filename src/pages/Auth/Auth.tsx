@@ -13,16 +13,19 @@ const Auth: React.FC = () => {
   const navigate = useNavigate();
 
   const onSignIn = async (googleUser: any) => {
-    const res: LoginResponse = await fetch('http://localhost:8000/auth/google', {
-      method: 'POST',
-      headers: {
-        Authorization: googleUser.getAuthResponse().id_token,
-      },
-      body: JSON.stringify({
-        googleId: googleUser.googleId,
-        email: googleUser.profileObj.email,
-      }),
-    }).then(res => res.json());
+    const res: LoginResponse = await fetch(
+      'https://farewell-wecode-api.herokuapp.com/auth/google',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: googleUser.getAuthResponse().id_token,
+        },
+        body: JSON.stringify({
+          googleId: googleUser.googleId,
+          email: googleUser.profileObj.email,
+        }),
+      }
+    ).then(res => res.json());
 
     localStorage.setItem('token', res.token);
     navigate('/');

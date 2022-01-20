@@ -33,7 +33,7 @@ const MessageInput = forwardRef<HTMLTextAreaElement, Props>(
         });
         const qs = '?' + search.toString();
 
-        return fetch('http://localhost:8000/chat/create' + qs, {
+        return fetch('https://farewell-wecode-api.herokuapp.com/chat/create' + qs, {
           method: 'POST',
           body: JSON.stringify(message),
         });

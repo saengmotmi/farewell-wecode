@@ -28,7 +28,7 @@ const Messenger: React.FC = () => {
     });
     const qs = '?' + search.toString();
 
-    const response = await fetch('http://localhost:8000/chat' + qs, {
+    const response = await fetch('https://farewell-wecode-api.herokuapp.com/chat' + qs, {
       method: 'GET',
     }).then(res => res.json());
 
