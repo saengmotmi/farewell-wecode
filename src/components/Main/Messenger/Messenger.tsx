@@ -1,48 +1,75 @@
+import { useState, useEffect, useRef } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import Message from './Message';
+import MessageInput from './MessageInput';
+import { useChatWithState, useUserState } from 'recoil/users';
 
-const messages = [
-  {
-    id: 1,
-    created_at: new Date(),
-    username: '멘토 오종택',
-    text: `
-      안녕하세요
-      반갑습니다
-    `,
-  },
-];
+export interface InterfaceMessage {
+  created_at: Date;
+  id: string;
+  text: string;
+  user_id: string;
+  username: string;
+}
 
 const Messenger: React.FC = () => {
+  const messageAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [height, setHeight] = useState(0);
+  const [me] = useUserState();
+  const [chatWith] = useChatWithState();
+
+  const { data: chat } = useQuery(['chat', chatWith.id], async () => {
+    const search = new URLSearchParams({
+      from: String(me!.id),
+      to: String(chatWith.id),
+    });
+    const qs = '?' + search.toString();
+
+    const response = await fetch('http://localhost:8000/chat' + qs, {
+      method: 'GET',
+    }).then(res => res.json());
+
+    return Object.values(response.chat) as InterfaceMessage[];
+  });
+
+  useEffect(() => {
+    resizeTextarea();
+  }, []);
+
+  useEffect(() => {
+    messageAreaRef.current?.scrollTo(0, messageAreaRef.current?.scrollHeight);
+  }, [height]);
+
+  const resizeTextarea = () => {
+    const { height } = inputRef.current?.getBoundingClientRect()!;
+    const { marginTop, marginBottom } = window.getComputedStyle(inputRef.current!)!;
+
+    setHeight(height + parseInt(marginTop) + parseInt(marginBottom) + 2);
+  };
+
   return (
-    <Container>
+    <Container inputHeight={height}>
       <User>
-        <UserProfileImage
-          alt="user_profile_image"
-          src="https://ca.slack-edge.com/T0F25KY9Y-U020D7262KH-3ac395a4150d-72"
-        />
-        <UserName>멘토 양준식</UserName>
+        <UserProfileImage alt="user_profile_image" src={chatWith?.profile_img} />
+        <UserName>{chatWith?.nickname}</UserName>
       </User>
-      <MessageArea>
-        {messages.map(message => {
-          return (
-            <div style={{ display: 'flex' }}>
-              <span>{message.username}</span>
-              <div>
-                {message.text.split('\n').map((line, idx) => {
-                  return <p key={idx}>{line}</p>;
-                })}
-              </div>
-            </div>
-          );
-        })}
+      <MessageArea ref={messageAreaRef} inputHeight={height}>
+        {chat?.map(chat => (
+          <Message key={chat.id} message={chat} />
+        ))}
       </MessageArea>
+      <MessageInput ref={inputRef} resizeTextarea={resizeTextarea} />
     </Container>
   );
 };
 
 export default Messenger;
 
-const Container = styled.div`
+const Container = styled.div<{ inputHeight: number }>`
+  display: grid;
+  grid-template-rows: 49px auto ${({ inputHeight }) => inputHeight}px;
   border-top: 1px solid ${({ theme }) => theme.borderGray};
 `;
 
@@ -66,4 +93,7 @@ const UserProfileImage = styled.img.attrs(() => ({
   margin-right: 8px;
 `;
 
-const MessageArea = styled.section``;
+const MessageArea = styled.section<{ inputHeight: number }>`
+  max-height: calc(100vh - ${({ inputHeight }) => inputHeight}px - 49px - 34px);
+  overflow: scroll;
+`;

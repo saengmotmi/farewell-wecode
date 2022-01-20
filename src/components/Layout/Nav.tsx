@@ -1,15 +1,33 @@
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { useUserState } from 'recoil/users';
 
 const Nav: React.FC = () => {
+  const [me, setMe] = useUserState();
+  const { data: user } = useQuery('user', async () => {
+    const response = await fetch('http://localhost:8000/users/me', {
+      method: 'GET',
+      headers: { Authorization: localStorage.getItem('token') ?? '' },
+    });
+    const data = await response.json();
+    return data.user;
+  });
+
+  useEffect(() => {
+    if (user) {
+      setMe(user);
+    }
+  }, [user]);
+
+  console.log(user);
+
   return (
     <Container>
       <div />
       <SearchBar>Farewell Wecode :)</SearchBar>
       <LoginUser>
-        <LoginUserImage
-          alt="login_user_image"
-          src="https://ca.slack-edge.com/T0F25KY9Y-U020D7262KH-3ac395a4150d-72"
-        />
+        <LoginUserImage alt="login_user_image" src={user?.profile_img} />
       </LoginUser>
     </Container>
   );

@@ -1,6 +1,19 @@
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { useChatWithState, useUserState } from 'recoil/users';
+import type { User as IUser } from 'recoil/users';
 
 const Aside: React.FC = () => {
+  const [me] = useUserState();
+  const { isLoading, data: users } = useQuery<IUser[]>('users', async () => {
+    const response = await fetch('http://localhost:8000/users');
+    const data = await response.json();
+    return data.users;
+  });
+  const [, setChatWith] = useChatWithState();
+
+  const isAdmin = me?.email === 'ohjtack@gracefulrain.co';
+
   return (
     <Container>
       <WorkSpace>
@@ -8,13 +21,16 @@ const Aside: React.FC = () => {
       </WorkSpace>
       <Categories>
         <CategoryName>Direct messages</CategoryName>
-        <User>
-          <UserProfileImage
-            alt="user_profile_image"
-            src="https://ca.slack-edge.com/T0F25KY9Y-U020D7262KH-3ac395a4150d-72"
-          />
-          <UserName>멘토 양준식</UserName>
-        </User>
+        {users
+          ?.filter(u => isAdmin || u.id === 1)
+          .map(user => {
+            return (
+              <User onClick={() => setChatWith(user)}>
+                <UserProfileImage alt="user_profile_image" src={user.profile_img} />
+                <UserName>{user.nickname}</UserName>
+              </User>
+            );
+          })}
       </Categories>
     </Container>
   );
@@ -48,6 +64,7 @@ const User = styled.li`
   display: flex;
   align-items: center;
   padding-left: 6px;
+  margin: 10px 0;
   cursor: pointer;
 `;
 

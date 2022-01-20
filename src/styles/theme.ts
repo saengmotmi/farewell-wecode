@@ -6,6 +6,7 @@ const theme = {
   borderGray: '#36373B',
   borderLightGray: 'rgb(86, 88, 86)',
   fontWhite: '#D1D2D3',
+  fontGray: 'rgb(171, 171, 173)',
 };
 
 export default theme;
