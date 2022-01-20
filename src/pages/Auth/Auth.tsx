@@ -40,7 +40,7 @@ const Auth: React.FC = () => {
           <b>잘 읽었다면 답장도</b> 남기실 수 있도록 준비해두었습니다 :)
         </Description>
         <GoogleLogin
-          clientId="968558418267-6dj3n7e1a7f74d2dd23cmjvb3osi1rqs.apps.googleusercontent.com"
+          clientId="968558418267-hcf23qtoaiap7upvm01658nhd3buobbr.apps.googleusercontent.com"
           buttonText="Google로 로그인 하기"
           onSuccess={googleUser => {
             console.log(googleUser);
