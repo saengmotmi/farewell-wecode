@@ -46,8 +46,6 @@ const MessageInput = forwardRef<HTMLTextAreaElement, Props>(
     );
 
     const sendMessage = (message: string) => {
-      console.log('send');
-
       mutation.mutate({
         created_at: new Date(),
         id: nanoid(),
@@ -75,7 +73,6 @@ const MessageInput = forwardRef<HTMLTextAreaElement, Props>(
           }
         }}
         onChange={e => {
-          console.log(e.target.value);
           resizeTextarea();
         }}
       />

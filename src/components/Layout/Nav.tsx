@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { useUserState } from 'recoil/users';
+import { useLocation } from 'react-router-dom';
 
 const Nav: React.FC = () => {
+  const location = useLocation();
   const [me, setMe] = useUserState();
-  const { data: user } = useQuery('user', async () => {
+  const { data: user, refetch } = useQuery('user', async () => {
     const response = await fetch('http://localhost:8000/users/me', {
       method: 'GET',
       headers: { Authorization: localStorage.getItem('token') ?? '' },
@@ -17,10 +19,10 @@ const Nav: React.FC = () => {
   useEffect(() => {
     if (user) {
       setMe(user);
+    } else {
+      refetch();
     }
-  }, [user]);
-
-  console.log(user);
+  }, [user, location.pathname]);
 
   return (
     <Container>

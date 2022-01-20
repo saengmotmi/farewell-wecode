@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import type { InterfaceMessage } from './Messenger';
+import dayjs from 'dayjs';
+const localizedFormat = require('dayjs/plugin/localizedFormat');
+dayjs.extend(localizedFormat);
 
 interface Props {
   message: InterfaceMessage;
@@ -13,7 +16,7 @@ const Message: React.FC<Props> = ({ message }) => {
       </div>
       <div>
         <UserName>{message.username}</UserName>
-        <Time>11:20 PM</Time>
+        <Time>{dayjs(message.created_at).format('LT')}</Time>
         {message.text.split('\n').map((line, idx) => {
           return <Line key={idx}>{line}</Line>;
         })}

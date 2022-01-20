@@ -12,7 +12,7 @@ const Aside: React.FC = () => {
   });
   const [, setChatWith] = useChatWithState();
 
-  const isAdmin = me?.email === 'ohjtack@gracefulrain.co';
+  // const isAdmin = me?.email === 'ohjtack@gracefulrain.co';
 
   return (
     <Container>
@@ -21,16 +21,15 @@ const Aside: React.FC = () => {
       </WorkSpace>
       <Categories>
         <CategoryName>Direct messages</CategoryName>
-        {users
-          ?.filter(u => isAdmin || u.id === 1)
-          .map(user => {
-            return (
-              <User onClick={() => setChatWith(user)}>
-                <UserProfileImage alt="user_profile_image" src={user.profile_img} />
-                <UserName>{user.nickname}</UserName>
-              </User>
-            );
-          })}
+        {/* ?.filter(u => isAdmin || u.id === 1) */}
+        {users?.map(user => {
+          return (
+            <User onClick={() => setChatWith(user)}>
+              <UserProfileImage alt="user_profile_image" src={user.profile_img} />
+              <UserName>{user.nickname}</UserName>
+            </User>
+          );
+        })}
       </Categories>
     </Container>
   );
