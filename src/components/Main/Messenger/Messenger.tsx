@@ -11,6 +11,7 @@ export interface InterfaceMessage {
   text: string;
   user_id: string;
   username: string;
+  user_img: string;
 }
 
 const Messenger: React.FC = () => {
@@ -49,6 +50,10 @@ const Messenger: React.FC = () => {
     setHeight(height + parseInt(marginTop) + parseInt(marginBottom) + 2);
   };
 
+  const resetTextarea = () => {
+    setHeight(61);
+  };
+
   return (
     <Container inputHeight={height}>
       <User>
@@ -60,7 +65,7 @@ const Messenger: React.FC = () => {
           <Message key={chat.id} message={chat} />
         ))}
       </MessageArea>
-      <MessageInput ref={inputRef} resizeTextarea={resizeTextarea} />
+      <MessageInput ref={inputRef} resizeTextarea={resizeTextarea} resetTextarea={resetTextarea} />
     </Container>
   );
 };

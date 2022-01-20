@@ -9,10 +9,7 @@ const Message: React.FC<Props> = ({ message }) => {
   return (
     <Container>
       <div>
-        <MessageProfileImage
-          alt="user_profile_image"
-          src="https://ca.slack-edge.com/T0F25KY9Y-U020D7262KH-3ac395a4150d-72"
-        />
+        <MessageProfileImage alt="user_profile_image" src={message.user_img} />
       </div>
       <div>
         <UserName>{message.username}</UserName>
