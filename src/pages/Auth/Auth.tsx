@@ -46,6 +46,7 @@ const Auth: React.FC = () => {
             console.log(googleUser);
             onSignIn(googleUser);
           }}
+          onFailure={err => console.log('fail', err)}
           cookiePolicy={'single_host_origin'}
         />
       </Form>
