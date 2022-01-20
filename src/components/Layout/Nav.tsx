@@ -29,7 +29,7 @@ const Nav: React.FC = () => {
       <div />
       <SearchBar>Farewell Wecode :)</SearchBar>
       <LoginUser>
-        <LoginUserImage alt="login_user_image" src={user?.profile_img} />
+        {user?.profile_img && <LoginUserImage alt="login_user_image" src={user?.profile_img} />}
       </LoginUser>
     </Container>
   );
