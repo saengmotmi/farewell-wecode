@@ -3,12 +3,13 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { useUserState } from 'recoil/users';
 import { useLocation } from 'react-router-dom';
+import { BASE_URL } from 'config';
 
 const Nav: React.FC = () => {
   const location = useLocation();
   const [me, setMe] = useUserState();
   const { data: user, refetch } = useQuery('user', async () => {
-    const response = await fetch('https://farewell-wecode-api.herokuapp.com/users/me', {
+    const response = await fetch(BASE_URL + '/users/me', {
       method: 'GET',
       headers: { Authorization: localStorage.getItem('token') ?? '' },
     });

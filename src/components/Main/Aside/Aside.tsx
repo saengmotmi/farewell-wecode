@@ -2,11 +2,12 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { useChatWithState, useUserState } from 'recoil/users';
 import type { User as IUser } from 'recoil/users';
+import { BASE_URL } from 'config';
 
 const Aside: React.FC = () => {
   const [me] = useUserState();
   const { isLoading, data: users } = useQuery<IUser[]>('users', async () => {
-    const response = await fetch('https://farewell-wecode-api.herokuapp.com/users');
+    const response = await fetch(BASE_URL + '/users');
     const data = await response.json();
     return data.users;
   });

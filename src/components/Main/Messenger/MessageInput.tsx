@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TextareaAutosize from 'react-textarea-autosize';
 import { nanoid } from 'nanoid';
 import { useUserState, useChatWithState } from 'recoil/users';
+import { BASE_URL } from 'config';
 
 interface Props {
   resizeTextarea: VoidFunction;
@@ -33,7 +34,7 @@ const MessageInput = forwardRef<HTMLTextAreaElement, Props>(
         });
         const qs = '?' + search.toString();
 
-        return fetch('https://farewell-wecode-api.herokuapp.com/chat/create' + qs, {
+        return fetch(BASE_URL + '/chat/create' + qs, {
           method: 'POST',
           body: JSON.stringify(message),
         });
@@ -61,7 +62,6 @@ const MessageInput = forwardRef<HTMLTextAreaElement, Props>(
         ref={ref}
         inputMode="text"
         placeholder={'Message ' + me?.nickname}
-        maxLength={80}
         minRows={1}
         maxRows={10}
         onKeyPress={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {

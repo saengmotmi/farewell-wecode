@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import { useChatWithState, useUserState } from 'recoil/users';
+import { BASE_URL } from 'config';
 
 export interface InterfaceMessage {
   created_at: Date;
@@ -28,7 +29,7 @@ const Messenger: React.FC = () => {
     });
     const qs = '?' + search.toString();
 
-    const response = await fetch('https://farewell-wecode-api.herokuapp.com/chat' + qs, {
+    const response = await fetch(BASE_URL + '/chat' + qs, {
       method: 'GET',
     }).then(res => res.json());
 
