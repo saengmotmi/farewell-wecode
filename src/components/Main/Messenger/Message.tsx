@@ -51,7 +51,7 @@ const Time = styled.span`
 `;
 
 const Line = styled.p`
-  margin-top: 8px;
+  margin-top: 7px;
   font-size: 15px;
-  line-height: 20px;
+  line-height: 22px;
 `;
