@@ -100,6 +100,5 @@ const UserProfileImage = styled.img.attrs(() => ({
 `;
 
 const MessageArea = styled.section<{ inputHeight: number }>`
-  max-height: calc(100vh - ${({ inputHeight }) => inputHeight}px - 49px - 34px);
   overflow: scroll;
 `;

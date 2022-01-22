@@ -19,7 +19,6 @@ function App() {
 export default App;
 
 const Container = styled.main`
-  height: calc(100vh - 34px);
   display: grid;
   grid-template-areas: 'aside messenger';
   grid-template-columns: 260px auto;

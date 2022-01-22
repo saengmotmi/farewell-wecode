@@ -54,6 +54,8 @@ const WorkSpace = styled.div`
 
 const Categories = styled.ul`
   padding: 0 16px;
+  height: calc(100vh - 34px - 48px);
+  overflow: auto;
 `;
 
 const CategoryName = styled.p`
