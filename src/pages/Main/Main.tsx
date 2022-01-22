@@ -22,6 +22,9 @@ const Container = styled.main`
   display: grid;
   grid-template-areas: 'aside messenger';
   grid-template-columns: 260px auto;
-
   background-color: ${({ theme }) => theme.black};
+
+  @media (max-width: 768px) {
+    grid-template-columns: auto;
+  }
 `;

@@ -40,6 +40,10 @@ export default Aside;
 
 const Container = styled.aside`
   border: 1px solid ${({ theme }) => theme.borderGray};
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const WorkSpace = styled.div`
